@@ -3,13 +3,13 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-enum Role {
+export enum Role {
   Admin = 'Admin',
   User = 'User',
   Organizer = 'Organizer',
 }
 
-enum Status {
+export enum Status {
   Pending = 'Pending',
   Accepted = 'Accepted',
   Refused = 'Refused',
