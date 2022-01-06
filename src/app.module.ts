@@ -23,10 +23,6 @@ import { UsersModule } from './users/users.module';
         }`,
       { serverSelectionTimeoutMS: 5000 },
     ),
-    /* MongooseModule.forRoot(`mongodb://${configuration().database.mongo.username}:` +
-      `${configuration().database.mongo.password}@${configuration().database.mongo.host}:` +
-      `${configuration().database.mongo.port}/${configuration().database.mongo.database}` + 
-      `?&authSource=admin`, { serverSelectionTimeoutMS: 5000, useFindAndModify: false }), */
     UsersModule,
     EventsModule,
     // AuthModule,
