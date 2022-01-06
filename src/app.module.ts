@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './roles/roles.module';
 import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
+import { EventsModule } from './events/events.module';
 // import { AuthModule } from './auth/auth.module';
 // import { JwtAuthGuard } from './auth/jwt-auth.guard';
 // import { APP_GUARD } from '@nestjs/core';
@@ -29,6 +30,7 @@ import { UsersModule } from './users/users.module';
       `?&authSource=admin`, { serverSelectionTimeoutMS: 5000, useFindAndModify: false }), */
     UsersModule,
     RolesModule,
+    EventsModule,
     // AuthModule,
   ],
 
