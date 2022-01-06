@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsEmail,
   IsNotEmpty,
@@ -43,4 +44,8 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   readonly status: string;
+
+  @IsArray()
+  @IsOptional()
+  readonly roles: [string];
 }

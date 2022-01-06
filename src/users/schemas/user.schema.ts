@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -44,13 +44,13 @@ export class User {
   @Prop()
   is_deleted: boolean;
 
-  @Prop({ enum: Role, default: Role.User })
-  roles: string;
+  @Prop({ type: [{ type: String, enum: Role }], default: [Role.User] })
+  roles: [string];
 
   @Prop()
   avatar_path: string;
 
-  @Prop({ default: Role.User })
+  @Prop({ enum: Status, default: Status.Pending })
   status: Status;
 }
 
