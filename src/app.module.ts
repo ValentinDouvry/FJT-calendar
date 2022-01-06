@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RolesModule } from './roles/roles.module';
 import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './events/events.module';
@@ -29,7 +28,6 @@ import { UsersModule } from './users/users.module';
       `${configuration().database.mongo.port}/${configuration().database.mongo.database}` + 
       `?&authSource=admin`, { serverSelectionTimeoutMS: 5000, useFindAndModify: false }), */
     UsersModule,
-    RolesModule,
     EventsModule,
     // AuthModule,
   ],

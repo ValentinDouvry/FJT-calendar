@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from './users/user.schema.ts';
+import { User } from '../users/schemas/user.schema';
 import * as mongoose from 'mongoose';
 
 export type EventDocument = Event & Document;
@@ -34,11 +34,8 @@ export class Event {
   @Prop({ required: true })
   end_date: Date;
 
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'User'})
-  organizerId: User;
-
-
-
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  organizer_Id: User;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
