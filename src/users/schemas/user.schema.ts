@@ -1,19 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Roles } from '../enums/roles.enum';
+import { Status } from '../enums/status.enum';
 
 export type UserDocument = User & Document;
-
-export enum Role {
-  Admin = 'Admin',
-  User = 'User',
-  Organizer = 'Organizer',
-}
-
-export enum Status {
-  Pending = 'Pending',
-  Accepted = 'Accepted',
-  Refused = 'Refused',
-}
 
 @Schema()
 export class User {
@@ -23,7 +13,7 @@ export class User {
   @Prop({ required: true })
   last_name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, lowercase: true })
   email: string;
 
   @Prop({ required: true })
@@ -44,7 +34,7 @@ export class User {
   @Prop()
   is_deleted: boolean;
 
-  @Prop({ type: [{ type: String, enum: Role }], default: [Role.User] })
+  @Prop({ type: [{ type: String, enum: Roles }], default: [Roles.User] })
   roles: [string];
 
   @Prop()

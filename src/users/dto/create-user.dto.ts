@@ -1,51 +1,56 @@
+import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsBoolean,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Roles } from '../enums/roles.enum';
+import { Status } from '../enums/status.enum';
 
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  readonly first_name: string;
+  first_name: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly last_name: string;
+  last_name: string;
 
   @IsEmail()
   @IsString()
   @IsNotEmpty()
-  readonly email: string;
+  email: string;
 
   @IsString()
   @MinLength(6)
   @IsNotEmpty()
-  readonly password: string;
+  password: string;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly room_number: number;
+  room_number: number;
 
   @IsBoolean()
   @IsOptional()
-  readonly is_deleted: boolean;
+  is_deleted: boolean;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  readonly avatar_path: string;
+  avatar_path: string;
 
   @IsString()
+  @IsEnum(Status)
   @IsOptional()
-  readonly status: string;
+  status: string;
 
-  @IsArray()
+  @IsEnum(Roles, { each: true })
+  @Type()
   @IsOptional()
-  readonly roles: [string];
+  roles: [string];
 }

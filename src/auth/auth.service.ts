@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { Injectable, Logger } from '@nestjs/common';
+import { UsersService } from 'src/users/users.service';
+import { compare } from 'bcrypt';
+import { Status } from 'src/users/enums/status.enum';
 import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -9,25 +10,27 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username);
-    if (user) {
-      // && user.password === pass
-      // const { password, ...result } = user;
-      const result = user;
-      return result;
+  private readonly logger = new Logger(AuthService.name);
+
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.usersService.findOneByEmail(email);
+    if (
+      user &&
+      (await compare(pass, user.password)) &&
+      user.status === Status.Accepted
+    ) {
+      const sanitized = user.toObject();
+      delete sanitized['password'];
+      return sanitized;
     }
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { email: user.email, sub: user._id };
+    const token = this.jwtService.sign(payload);
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
     };
   }
-
-  signinLocal() {}
-
-  signupLocal() {}
 }

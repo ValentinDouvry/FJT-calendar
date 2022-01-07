@@ -9,5 +9,9 @@ export default () => ({
       username: process.env.MONGO_USERNAME,
       password: process.env.MONGO_PASSWORD,
     }
+  },
+  jwtToken: {
+    secret: process.env.JWT_SECRET,
+    expiresIn: process.env.JWT_EXPIRES_TIME
   }
 });
