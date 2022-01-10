@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './events/events.module';
-// import { AuthModule } from './auth/auth.module';
-// import { JwtAuthGuard } from './auth/jwt-auth.guard';
-// import { APP_GUARD } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
-// import { AppController } from './app.controller';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessTokenAuthGuard } from './auth/guards/access-token-auth.guard';
+import { RolesGuard } from './auth/guards';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: `.env`,
       load: [configuration],
     }),
@@ -25,16 +25,17 @@ import { UsersModule } from './users/users.module';
     ),
     UsersModule,
     EventsModule,
-    // AuthModule,
+    AuthModule,
   ],
-
-  // controllers: [AppController],
   providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtAuthGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -9,10 +9,9 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Roles } from '../enums/roles.enum';
-import { Status } from '../enums/status.enum';
+import { Roles, Status } from 'src/users/enums';
 
-export class CreateUserDto {
+export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   first_name: string;
@@ -30,6 +29,11 @@ export class CreateUserDto {
   @MinLength(6)
   @IsNotEmpty()
   password: string;
+
+  @IsString()
+  @MinLength(6)
+  @IsNotEmpty()
+  confirme_password: string;
 
   @IsNumber()
   @IsNotEmpty()
