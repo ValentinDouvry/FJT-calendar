@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
+import { Roles } from 'src/users/enums';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -17,8 +18,24 @@ export class EventsService {
   ) {}
 
   async create(createEventDto: CreateEventDto): Promise<Events> {
-    const createdEvent = new this.eventModel(createEventDto);
-    return createdEvent.save();
+    const user = await this.userService.findOne(createEventDto.organizer_id);
+    if (!user) {
+      throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);
+    }
+    if (
+      user.roles?.includes(Roles.Admin) ||
+      user.roles?.includes(Roles.Organizer)
+    ) {
+      return new this.eventModel({
+        ...createEventDto,
+        is_confirmed: true,
+      }).save();
+    } else {
+      return new this.eventModel({
+        ...createEventDto,
+        is_confirmed: false,
+      }).save();
+    }
   }
 
   async findAll() {
