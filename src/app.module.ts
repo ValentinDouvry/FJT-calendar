@@ -6,7 +6,8 @@ import { EventsModule } from './events/events.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { AccessTokenAuthGuard } from './auth/guards/access-token-auth.guard';
+import { RolesGuard } from './auth/guards';
 
 @Module({
   imports: [
@@ -29,7 +30,11 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: AccessTokenAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

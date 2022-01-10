@@ -22,10 +22,10 @@ export class User {
   @Prop({ required: true })
   room_number: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: new Date() })
   created_date: Date;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: new Date() })
   update_date: Date;
 
   @Prop()
