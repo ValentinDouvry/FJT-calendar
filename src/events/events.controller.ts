@@ -42,7 +42,7 @@ export class EventsController {
     return this.eventsService.remove(id);
   }
 
-  @Patch('/addParticipant/:id')
+  @Post('/addParticipant/:id')
   addParticipant(
     @Param('id') id: string,
     @Body() CreateParticipantDto: CreateParticipantDto,
@@ -50,7 +50,7 @@ export class EventsController {
     return this.eventsService.addParticipant(id, CreateParticipantDto);
   }
 
-  @Patch('/deleteParticipant/:id')
+  @Delete('/deleteParticipant/:id')
   removeParticipant(
     @Param('id') id: string,
     @Body() updateParticipantDto: UpdateParticipantDto,
