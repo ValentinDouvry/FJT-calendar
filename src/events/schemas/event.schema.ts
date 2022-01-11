@@ -13,6 +13,7 @@ export class Participants {
 
   @Prop({ default: false })
   has_participated: boolean;
+  participant: () => number;
 }
 
 @Schema()
