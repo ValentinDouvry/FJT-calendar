@@ -121,6 +121,17 @@ export class AuthService {
     return { access_token: accessToken };
   }
 
+  async revokeTokenForUser(userId: string): Promise<any> {
+    if (!isValidObjectId(userId)) {
+      throw new HttpException('UserId incorrect', HttpStatus.FORBIDDEN);
+    }
+
+    return this.refreshTokenModel.updateMany(
+      { user_id: userId },
+      { is_revoked: true },
+    );
+  }
+
   async getRefreshToken(userId: string): Promise<string> {
     const token = await this.jwtService.signAsync(
       { sub: userId },

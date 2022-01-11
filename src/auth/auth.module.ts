@@ -5,12 +5,9 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  RefreshToken,
-  RefreshTokenSchema,
-} from './schemas/refresh-tokens.schema';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
+import { RefreshToken, RefreshTokenSchema } from './schemas';
 
 @Module({
   imports: [
