@@ -12,6 +12,10 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { Roles } from 'src/users/enums';
+import { HasRole } from 'src/decorators/has-role.decorator';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Controller('events')
 export class EventsController {
@@ -42,19 +46,53 @@ export class EventsController {
     return this.eventsService.remove(id);
   }
 
-  @Post('/addParticipant/:id')
+  @Post('/addParticipant/:eventId')
   addParticipant(
-    @Param('id') id: string,
+    @Param('eventId') event_id: string,
     @Body() CreateParticipantDto: CreateParticipantDto,
   ) {
-    return this.eventsService.addParticipant(id, CreateParticipantDto);
+    return this.eventsService.addParticipant(event_id, CreateParticipantDto);
   }
 
-  @Delete('/deleteParticipant/:id')
+  @Delete('/deleteParticipant/:eventId')
   removeParticipant(
-    @Param('id') id: string,
+    @Param('eventId') event_id: string,
     @Body() updateParticipantDto: UpdateParticipantDto,
   ) {
-    return this.eventsService.removeParticipant(id, updateParticipantDto);
+    return this.eventsService.removeParticipant(event_id, updateParticipantDto);
+  }
+
+  @Post('/addComment/:eventId')
+  addComment(
+    @Param('eventId') event_id: string,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
+    return this.eventsService.addComment(event_id, createCommentDto);
+  }
+
+  @Patch('/updateComment/eventId/:eventId/commentId/:commentId')
+  updateComment(
+    @Param('eventId') event_id: string,
+    @Param('commentId') comment_id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    return this.eventsService.updateComment(
+      event_id,
+      comment_id,
+      updateCommentDto,
+    );
+  }
+
+  @Delete('/deleteComment/eventId/:eventId/commentId/:commentId')
+  deleteComment(
+    @Param('eventId') event_id: string,
+    @Param('commentId') comment_id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    return this.eventsService.deleteComment(
+      event_id,
+      comment_id,
+      updateCommentDto,
+    );
   }
 }

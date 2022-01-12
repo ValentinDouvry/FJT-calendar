@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
 export type EventsDocument = Events & Document;
 
@@ -18,6 +18,9 @@ export class Participants {
 
 @Schema()
 export class Comments {
+  @Prop({ required: true })
+  _id: string;
+
   @Prop({ required: true })
   user_id: string;
 
