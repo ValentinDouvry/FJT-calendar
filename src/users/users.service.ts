@@ -66,7 +66,19 @@ export class UsersService {
   async remove(id: string) {
     return this.UserModel.updateOne(
       { _id: id },
-      { is_deleted: true, deleted_date: new Date() },
+      {
+        $unset: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          password: '',
+          room_number: '',
+          avatar_path: '',
+          status: '',
+        },
+        is_deleted: true,
+        deleted_date: new Date(),
+      },
     );
   }
 

@@ -9,6 +9,7 @@ import {
   Logger,
   HttpException,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,27 +23,32 @@ export class UsersController {
 
   private readonly logger = new Logger(UsersController.name);
 
-  @Public()
+  @HttpCode(HttpStatus.OK)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Public()
+  @HttpCode(HttpStatus.OK)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch('change-password/:id')
   changePassword(
     @Param('id') userId: string,
@@ -60,12 +66,14 @@ export class UsersController {
   }
 
   @Public()
+  @HttpCode(HttpStatus.OK)
   @Post('forget-password')
   forgetPassword(@Body() forgetPasswordDto: ForgetPasswordDto) {
     return this.usersService.forgetPassword(forgetPasswordDto);
   }
 
   @Public()
+  @HttpCode(HttpStatus.OK)
   @Patch('reset-password')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.usersService.resetPassword(resetPasswordDto);

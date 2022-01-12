@@ -13,7 +13,6 @@ import {
 } from './schemas/refresh-tokens.schema';
 import { isValidObjectId, Model } from 'mongoose';
 import { LoginTokens } from './types';
-import { User } from 'src/users/schemas/user.schema';
 @Injectable()
 export class AuthService {
   constructor(
