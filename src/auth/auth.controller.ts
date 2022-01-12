@@ -51,14 +51,14 @@ export class AuthController {
 
   @Public()
   @UseGuards(RefreshTokenAuth)
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @Post('refresh')
   refreshTokens(@GetRefreshTokenRequest('refresh_token') rt: string) {
     return this.authService.refresh(rt);
   }
 
   @HasRole(Roles.Admin)
-  @Public()
+  @HttpCode(HttpStatus.ACCEPTED)
   @Patch('revoke-token/:user_id')
   revokeToken(@Param('user_id') userId: string) {
     return this.authService.revokeTokenForUser(userId);
