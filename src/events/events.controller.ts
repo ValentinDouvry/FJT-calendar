@@ -41,6 +41,14 @@ export class EventsController {
     return this.eventsService.update(id, updateEventDto);
   }
 
+  @Patch('/changePropositionToEvent/:id')
+  changePropositionToEvent(
+    @Param('id') id: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ) {
+    return this.eventsService.changePropositionToEvent(id, updateEventDto);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
