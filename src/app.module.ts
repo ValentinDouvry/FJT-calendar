@@ -16,13 +16,9 @@ import { RolesGuard } from './auth/guards';
       envFilePath: `.env`,
       load: [configuration],
     }),
-    MongooseModule.forRoot(
-      `mongodb://${configuration().database.mongo.host}:` +
-        `${configuration().database.mongo.port}/${
-          configuration().database.mongo.database
-        }`,
-      { serverSelectionTimeoutMS: 5000 },
-    ),
+    MongooseModule.forRoot(configuration().database.mongo.uri, {
+      serverSelectionTimeoutMS: 5000,
+    }),
     UsersModule,
     EventsModule,
     AuthModule,
