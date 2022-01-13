@@ -2,11 +2,13 @@ import {
   IsArray,
   IsBoolean,
   IsDate,
+  IsEnum,
   IsDateString,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Status } from '../enums/status.enum';
 import { Comments, Participants } from '../schemas/event.schema';
 
 export class CreateEventDto {
@@ -66,4 +68,9 @@ export class CreateEventDto {
   @IsArray()
   @IsOptional()
   comments: [Comments];
+
+  @IsString()
+  @IsEnum(Status)
+  @IsOptional()
+  status: string;
 }
