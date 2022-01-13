@@ -76,11 +76,31 @@ export class EventsService {
     if (!isValidObjectId(id)) {
       throw new HttpException('ID non valide', HttpStatus.NOT_FOUND);
     }
-    const user = await this.userService.findOne(updateEventDto.organizer_id);
-    if (!user) {
-      throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);
+    const event = await this.eventModel.findOne({ _id: id });
+    if (!event) {
+      throw new HttpException('evenement inexistant', HttpStatus.NOT_FOUND);
     }
     return this.eventModel.updateOne({ _id: id }, { $set: updateEventDto });
+  }
+
+  async changePropositionToEvent(id: string, updateEventDto: UpdateEventDto) {
+    if (!isValidObjectId(id)) {
+      throw new HttpException('ID non valide', HttpStatus.NOT_FOUND);
+    }
+    const event = await this.eventModel.findOne({ _id: id });
+    if (!event) {
+      throw new HttpException('evenement inexistant', HttpStatus.NOT_FOUND);
+    }
+    if (event.is_confirmed == true) {
+      throw new HttpException(
+        'La proposition que vous souhaitez chanegr en évènement est déja un évènement',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return this.eventModel.updateOne(
+      { _id: id },
+      { ...updateEventDto, is_confirmed: true },
+    );
   }
 
   remove(id: string) {
