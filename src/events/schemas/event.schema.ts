@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
+import { Status } from '../enums/status.enum';
 export type EventsDocument = Events & Document;
 
 @Schema()
@@ -80,6 +81,9 @@ export class Events {
 
   @Prop({ Comments })
   comments: Comments[];
+
+  @Prop({ enum: Status, default: Status.Unfinished })
+  status: Status;
 }
 
 export const EventsSchema = SchemaFactory.createForClass(Events);

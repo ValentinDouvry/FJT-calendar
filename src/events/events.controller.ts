@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -21,26 +23,43 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
+  @HttpCode(HttpStatus.OK)
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.create(createEventDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get()
   findAll() {
     return this.eventsService.findAll();
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(id, updateEventDto);
   }
 
+  @HttpCode(HttpStatus.OK)
+  @Patch('/endAnEvent/:id')
+  endAnEvent(@Param('id') id: string) {
+    return this.eventsService.endAnEvent(id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Patch('/cancelAnEvent/:id')
+  cancelAnEvent(@Param('id') id: string) {
+    return this.eventsService.cancelAnEvent(id);
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Patch('/changePropositionToEvent/:id')
   changePropositionToEvent(
     @Param('id') id: string,
@@ -49,11 +68,13 @@ export class EventsController {
     return this.eventsService.changePropositionToEvent(id, updateEventDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('/addParticipant/:eventId')
   addParticipant(
     @Param('eventId') event_id: string,
@@ -62,6 +83,7 @@ export class EventsController {
     return this.eventsService.addParticipant(event_id, CreateParticipantDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Delete('/deleteParticipant/:eventId')
   removeParticipant(
     @Param('eventId') event_id: string,
@@ -70,6 +92,7 @@ export class EventsController {
     return this.eventsService.removeParticipant(event_id, updateParticipantDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('/addComment/:eventId')
   addComment(
     @Param('eventId') event_id: string,
@@ -78,6 +101,7 @@ export class EventsController {
     return this.eventsService.addComment(event_id, createCommentDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch('/updateComment/eventId/:eventId/commentId/:commentId')
   updateComment(
     @Param('eventId') event_id: string,
@@ -91,6 +115,7 @@ export class EventsController {
     );
   }
 
+  @HttpCode(HttpStatus.OK)
   @Delete('/deleteComment/eventId/:eventId/commentId/:commentId')
   deleteComment(
     @Param('eventId') event_id: string,

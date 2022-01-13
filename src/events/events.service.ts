@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model, mongo, Mongoose } from 'mongoose';
 import { use } from 'passport';
 import { parse } from 'path/posix';
-import { Roles } from 'src/users/enums';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -20,6 +19,7 @@ import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import mongoose = require('mongoose');
+import { Status } from './enums/status.enum';
 
 @Injectable()
 export class EventsService {
@@ -83,6 +83,28 @@ export class EventsService {
     return this.eventModel.updateOne({ _id: id }, { $set: updateEventDto });
   }
 
+  async endAnEvent(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new HttpException('ID non valide', HttpStatus.NOT_FOUND);
+    }
+    const event = await this.eventModel.findOne({ _id: id });
+    if (!event) {
+      throw new HttpException('evenement inexistant', HttpStatus.NOT_FOUND);
+    }
+    return this.eventModel.updateOne({ _id: id }, { status: Status.Finished });
+  }
+
+  async cancelAnEvent(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new HttpException('ID non valide', HttpStatus.NOT_FOUND);
+    }
+    const event = await this.eventModel.findOne({ _id: id });
+    if (!event) {
+      throw new HttpException('evenement inexistant', HttpStatus.NOT_FOUND);
+    }
+    return this.eventModel.updateOne({ _id: id }, { status: Status.Canceled });
+  }
+
   async changePropositionToEvent(id: string, updateEventDto: UpdateEventDto) {
     if (!isValidObjectId(id)) {
       throw new HttpException('ID non valide', HttpStatus.NOT_FOUND);
@@ -103,8 +125,15 @@ export class EventsService {
     );
   }
 
-  remove(id: string) {
-    return this.eventModel.updateOne({ _id: id }, { is_deleted: true });
+  async remove(id: string) {
+    const event = await this.eventModel.findOne({ _id: id });
+    if (!event) {
+      throw new HttpException('evenement inexistant', HttpStatus.NOT_FOUND);
+    }
+    return this.eventModel.updateOne(
+      { _id: event._id },
+      { is_deleted: true, deleted_date: new Date() },
+    );
   }
 
   async addParticipant(
