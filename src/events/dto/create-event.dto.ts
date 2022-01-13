@@ -50,8 +50,14 @@ export class CreateEventDto {
   end_date: Date;
 
   @IsString()
+  @IsOptional()
   @IsNotEmpty()
   organizer_id: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  proposed_by: string;
 
   @IsArray()
   @IsOptional()

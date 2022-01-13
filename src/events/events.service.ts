@@ -31,23 +31,36 @@ export class EventsService {
   ) {}
 
   async create(createEventDto: CreateEventDto): Promise<Events> {
-    const user = await this.userService.findOne(createEventDto.organizer_id);
-    if (!user) {
-      throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);
-    }
+    let user;
     if (
-      user.roles?.includes(Roles.Admin) ||
-      user.roles?.includes(Roles.Organizer)
+      createEventDto.organizer_id == undefined &&
+      createEventDto.proposed_by == undefined
     ) {
-      return new this.eventModel({
-        ...createEventDto,
-        is_confirmed: true,
-      }).save();
+      throw new HttpException(
+        'User et Organizer non renseigné',
+        HttpStatus.NOT_FOUND,
+      );
     } else {
-      return new this.eventModel({
-        ...createEventDto,
-        is_confirmed: false,
-      }).save();
+      if (createEventDto.organizer_id != undefined) {
+        console.log(createEventDto.organizer_id);
+        user = await this.userService.findOne(createEventDto.organizer_id);
+        if (!user) {
+          throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);
+        }
+        return new this.eventModel({
+          ...createEventDto,
+          is_confirmed: true,
+        }).save();
+      } else {
+        user = await this.userService.findOne(createEventDto.proposed_by);
+        if (!user) {
+          throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);
+        }
+        return new this.eventModel({
+          ...createEventDto,
+          is_confirmed: false,
+        }).save();
+      }
     }
   }
 

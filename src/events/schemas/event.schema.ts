@@ -72,6 +72,9 @@ export class Events {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
   organizer_id: string;
 
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  proposed_by: string;
+
   @Prop({ Participants })
   participants: Participants[];
 
