@@ -3,6 +3,7 @@ export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     mongo: {
+      uri: process.env.MONGO_URI,
       host: process.env.MONGO_HOST,
       port: process.env.MONGO_PORT,
       database: process.env.MONGO_DATABASE,
