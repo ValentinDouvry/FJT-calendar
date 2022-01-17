@@ -41,7 +41,6 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @Public()
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
   remove(@Param('id') id: string) {
@@ -72,8 +71,8 @@ export class UsersController {
     return this.usersService.forgetPassword(forgetPasswordDto);
   }
 
-  @Public()
   @HttpCode(HttpStatus.OK)
+  @Public()
   @Patch('reset-password')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.usersService.resetPassword(resetPasswordDto);

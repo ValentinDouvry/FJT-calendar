@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type ForgetPasswordDocument = ForgetPassword & Document;
 
-@Schema({ collection: 'reset_passwords' })
+@Schema({ collection: 'forget_passwords' })
 export class ForgetPassword {
   @Prop({ required: true })
   user_id: string;
