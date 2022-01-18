@@ -42,7 +42,6 @@ export class EventsService {
       );
     } else {
       if (createEventDto.organizer_id != undefined) {
-        console.log(createEventDto.organizer_id);
         user = await this.userService.findOne(createEventDto.organizer_id);
         if (!user) {
           throw new HttpException('User inexistant', HttpStatus.NOT_FOUND);

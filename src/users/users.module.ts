@@ -8,6 +8,7 @@ import {
   User,
   UserSchema,
 } from './schemas';
+import { RolesGuard } from 'src/auth/guards';
 
 @Module({
   imports: [

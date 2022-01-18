@@ -2,9 +2,7 @@ import {
   Controller,
   Post,
   UseGuards,
-  Request,
   Logger,
-  Get,
   Body,
   Param,
   HttpCode,
@@ -15,11 +13,9 @@ import { GetAccesTokenPayload, GetRefreshTokenRequest } from 'src/decorators';
 import { HasRole } from 'src/decorators/has-role.decorator';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/users/enums';
-import { User } from 'src/users/schemas/user.schema';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/intex';
 import { RegisterDto } from './dto/register.dto';
-import { RolesGuard } from './guards';
 import { RefreshTokenAuth } from './guards/refresh-token-auth.guard';
 import { LoginTokens } from './types';
 

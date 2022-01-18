@@ -13,6 +13,7 @@ import {
 } from './schemas/refresh-tokens.schema';
 import { isValidObjectId, Model } from 'mongoose';
 import { LoginTokens } from './types';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -51,7 +52,10 @@ export class AuthService {
       user.status !== Status.Accepted ||
       !(await compare(loginDto.password, user.password))
     ) {
-      throw new HttpException('Accès non autorisé', HttpStatus.FORBIDDEN);
+      throw new HttpException(
+        'Identification non valide ou non autorisée',
+        HttpStatus.FORBIDDEN,
+      );
     }
 
     const refreshToken = await this.getRefreshToken(user._id);

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
@@ -13,12 +12,12 @@ export default () => ({
   },
   jwt: {
     access: {
-      secret: process.env.JWT_ACCESS_SECRET || "access-secret",
-      expire_time: process.env.JWT_ACCESS_EXPIRES_TIME || "15m",
+      secret: process.env.JWT_ACCESS_SECRET || 'access-secret',
+      expire_time: process.env.JWT_ACCESS_EXPIRES_TIME || '15m',
     },
     refresh: {
-      secret: process.env.JWT_REFRESH_SECRET || "refresh-secret",
-      expire_time: process.env.JWT_REFRESH_EXPIRES_TIME || "30d",
+      secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret',
+      expire_time: process.env.JWT_REFRESH_EXPIRES_TIME || '30d',
     },
   },
 });

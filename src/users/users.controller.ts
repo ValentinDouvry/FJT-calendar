@@ -16,6 +16,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { ChangePasswordDto, ForgetPasswordDto, ResetPasswordDto } from './dto';
 import { GetAccesTokenPayload } from 'src/decorators';
+import { HasRole } from 'src/decorators/has-role.decorator';
+import { Roles } from './enums';
 
 @Controller('users')
 export class UsersController {
@@ -24,6 +26,7 @@ export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Admin)
   @Get()
   findAll() {
     return this.usersService.findAll();
