@@ -42,24 +42,28 @@ export class EventsController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(id, updateEventDto);
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Patch('/endAnEvent/:id')
   endAnEvent(@Param('id') id: string) {
     return this.eventsService.endAnEvent(id);
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Patch('/cancelAnEvent/:id')
   cancelAnEvent(@Param('id') id: string) {
     return this.eventsService.cancelAnEvent(id);
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Patch('/changePropositionToEvent/:id')
   changePropositionToEvent(
     @Param('id') id: string,
@@ -69,6 +73,7 @@ export class EventsController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
@@ -84,6 +89,7 @@ export class EventsController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @HasRole(Roles.Organizer)
   @Delete('/deleteParticipant/:eventId')
   removeParticipant(
     @Param('eventId') event_id: string,
